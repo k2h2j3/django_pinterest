@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 
 def hello_world(request):
@@ -14,3 +14,8 @@ class AccountCreateView(CreateView):
     form_class = UserCreationForm #로그인폼
     success_url = reverse_lazy('accountapp:hello_world') #로그인성공시 연결할url
     template_name = 'accountapp/create.html'
+
+class AccountDetailView(DetailView):
+    model = User
+    context_object_name = 'target_user' #다른 사람들의 정보를 볼 수 있게 타겟을 지정
+    template_name = 'accountapp/detail.html'
