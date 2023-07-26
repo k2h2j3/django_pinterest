@@ -15,7 +15,7 @@ has_ownership = [account_ownership_required, login_required]
 
 @login_required
 def hello_world(request):
-    return HttpResponseRedirect(reverse('accountapp:hello_world'))
+    return render(request, 'accountapp/hello_world.html')
 
 
 class AccountCreateView(CreateView):
