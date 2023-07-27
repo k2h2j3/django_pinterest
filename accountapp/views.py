@@ -14,11 +14,6 @@ from articleapp.models import Article
 
 has_ownership = [account_ownership_required, login_required]
 
-@login_required
-def hello_world(request):
-    return render(request, 'accountapp/hello_world.html')
-
-
 class AccountCreateView(CreateView):
     model = User #연결할모델
     form_class = UserCreationForm #로그인폼
