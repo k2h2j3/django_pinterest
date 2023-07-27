@@ -15,8 +15,8 @@
 
             <img style="width:100%; border-radius: 1rem; margin: 2rem 0;" src="{{ target_article.image.url }}" alt="">
 
-            <p>
-                {{ target_article.content }}
+            <p class="text-start">
+                {{ target_article.content | safe }}
             </p>
 
             {% if target_article.writer == user %}
