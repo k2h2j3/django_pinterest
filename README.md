@@ -75,7 +75,13 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 -> admin 아이디 , 비밀번호 입력 후 접속(처음이면 생성) -> 
 
 
-1) nginx 컨테이너와 django_container_gunicorn 컨테이너 연결
+1) image 생성
+
+   Dockerfile 작성 -> portainer에서 image 생성
+
+   
+
+3) nginx 컨테이너와 django_container_gunicorn 컨테이너 연결
 
 
 ![1](https://github.com/k2h2j3/django_pinterest/assets/74819625/b2006d79-09b3-4161-a375-9a0442824734)
@@ -94,7 +100,7 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 
 -> nginx의 볼륨(volume)
 
-2) django_container_gunicorn 컨테이너에서 DB를 외부 mariadb로 설정 후 연결
+3) django_container_gunicorn 컨테이너에서 DB를 외부 mariadb로 설정 후 연결
 
 
 ![2](https://github.com/k2h2j3/django_pinterest/assets/74819625/8085f3bb-108d-44fd-8c64-056ddb49dcb5)
@@ -125,7 +131,7 @@ DB를 외부로 돌리기 위해서는 settings.py의 기능을 local(개발환�
 5. Dockerfile 수정 후 portainer에서 image를 새로 만든 후 그 image를 기반으로 새 django_container_gunicorn 컨테이너 생성
 
 
-3) 컨테이너->Service로 만들고 노드로 묶기
+4) 컨테이너->Service로 만들고 노드로 묶기
 
    서버를 돌리는 중에 django_container_gunicorn이 도중에 꺼지면 연동되어있는 다른 컨테이너또한 작동이 되지않아 서버가 다운될 것이다. 그러면 다시 컨테이너를 수동으로 켜주어야하는데 24시간내내 서버를 지킬수가 없기 때문에 자동적으로 서버를 구동시켜주는 시스템이 필요하다. 그것이 Service이다
 
