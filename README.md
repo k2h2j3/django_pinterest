@@ -38,6 +38,8 @@ Vultr, docker, portainer를 사용하여 배포
 
 ### 2.2 배포 URL
 
+- http://158.247.243.153/
+
 <hr>
 
 ## 3. 데이터베이스 ERD
