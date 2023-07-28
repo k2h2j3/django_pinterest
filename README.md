@@ -12,7 +12,7 @@ Vultr, docker, portainer를 사용하여 배포
 ### 1.2 기능과 진행상황
 
 1. 회원가입
-2. 로그인, 로그아
+2. 로그인, 로그아웃
 3. 개인 페이지
 4. 비밀번호 변경
 5. 회원 탈퇴
@@ -75,6 +75,12 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 -> admin 아이디 , 비밀번호 입력 후 접속(처음이면 생성) -> 
 
 
+1) nginx 컨테이너와 django_container_gunicorn 컨테이너 연결
+
+
+![1](https://github.com/k2h2j3/django_pinterest/assets/74819625/b2006d79-09b3-4161-a375-9a0442824734)
+
+
 컨테이너간의 연결에서 시간이 매우 오래걸렸다.
 처음에 연결했을 때, nginx.conf를 적용했는 데도 불구하고 css,media 적용이 되지 않았는데 볼륨(volume) 연결에서 헷갈린 부분이있었다.
 
@@ -87,4 +93,64 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 ![nginx볼륨(volume)](https://github.com/k2h2j3/django_pinterest/assets/74819625/22907c2e-5492-4414-abba-3c147cf099c7)
 
 -> nginx의 볼륨(volume)
+
+2) django_container_gunicorn 컨테이너에서 DB를 외부 mariadb로 설정 후 연결
+
+
+![2](https://github.com/k2h2j3/django_pinterest/assets/74819625/8085f3bb-108d-44fd-8c64-056ddb49dcb5)
+
+
+DB를 외부로 돌리기 위해서는 settings.py의 기능을 local(개발환경)과 deploy(배포환경)을 나눠서 설정해주어야한다.
+
+1.  pragmatic 디렉토리에서 settings 디렉토리를 만든 후(python package로 만들 것) local, deploy, base파일로 나눈다.
+
+![settings](https://github.com/k2h2j3/django_pinterest/assets/74819625/4e347d12-b77b-4f7b-a775-cdc66dbbfbcb)
+
+2. local환경과 deploy환경설정을 해준다. local환경은 settings.py의 기능을 그대로 사용해주면 된다.(pragmatic/settings/local.py 참조)
+   deploy환경은 외부에서 사용할 DB를 넣어주고 DEBUG=False로 설정해준다(pragmatic/settings/deploy.py 참조)
+   기존의 settings.py는 base.py로 rename 해준다.
+
+3. settings라는 패키지를 추가했으므로 manage.py 변경
+
+   
+![managepy설정](https://github.com/k2h2j3/django_pinterest/assets/74819625/b3a28526-5235-413f-8ea1-ec7bcfdf28ef)
+
+
+4. base.py의 BASE_DIR설정도 뒤에 .parent를 붙여준다
+
+
+![BASEDIR](https://github.com/k2h2j3/django_pinterest/assets/74819625/07bff94b-6286-43a1-8298-64bf66a73e3e)
+
+
+5. Dockerfile 수정 후 portainer에서 image를 새로 만든 후 그 image를 기반으로 새 django_container_gunicorn 컨테이너 생성
+
+
+3) 컨테이너->Service로 만들고 노드로 묶기
+
+   서버를 돌리는 중에 django_container_gunicorn이 도중에 꺼지면 연동되어있는 다른 컨테이너또한 작동이 되지않아 서버가 다운될 것이다. 그러면 다시 컨테이너를 수동으로 켜주어야하는데 24시간내내 서버를 지킬수가 없기 때문에 자동적으로 서버를 구동시켜주는 시스템이 필요하다. 그것이 Service이다
+
+
+   ![3](https://github.com/k2h2j3/django_pinterest/assets/74819625/b3654dd6-30af-4d26-8576-573cf3e0f793)
+
+
+   1. cmd에서 root계정으로 가상서버에 접속한 후 'docker swarm init' 입력
+  
+![1](https://github.com/k2h2j3/django_pinterest/assets/74819625/834568d5-064f-4113-a013-a03b6e8bbcb4)
+
+2. yml파일 작성, yml파일은 스택을 생성하기위해 필요한 파일로, 이 파일에는 그 동안 컨테이너들을 만드는데 입력한 volume,network,image등의 정보가 있다.
+
+
+   ![2](https://github.com/k2h2j3/django_pinterest/assets/74819625/29966efc-5394-4f20-9530-3b834c20a402)
+
+
+3. yml파일을 사용하여 스택 생성
+
+
+![3](https://github.com/k2h2j3/django_pinterest/assets/74819625/e219d5f5-7df6-4758-bbc9-0835f4c875a7)
+
+
+
+   
+
+
 
