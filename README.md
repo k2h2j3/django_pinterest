@@ -44,6 +44,10 @@ Vultr, docker, portainer를 사용하여 배포
 
 ## 3. 데이터베이스 ERD
 
+
+![Django_pinterest](https://github.com/k2h2j3/django_pinterest/assets/74819625/c62fb4f0-11d8-4c57-b735-5c628426d61b)
+
+
 <hr>
 
 ## 4. 프로젝트 구조
