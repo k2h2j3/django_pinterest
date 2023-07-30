@@ -52,17 +52,82 @@ Vultr, docker, portainer를 사용하여 배포
 
 ## 4. 프로젝트 구조
 
+```bash
+pragmatic
+|
++---accountapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---accountapp
+|   \---__pycache__
++---articleapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---articleapp
+|   \---__pycache__
++---commentapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---commentapp
+|   \---__pycache__
++---media
+|   +---article
+|   +---profile
+|   \---project
++---pragmatic
+|   +---settings
+|   |   \---__pycache__
+|   \---__pycache__
++---profileapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---profileapp
+|   \---__pycache__
++---projectapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---projectapp
+|   \---__pycache__
++---static
+|   \---js
++---subscribeapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---subscribeapp
+|   \---__pycache__
+\---templates
+    \---snippets
+```
+
 <hr>
 
 ## 5. UI
+
+
 
 <hr>
 
 ## 6. 메인 기능
 
+- 회원가입
+- 로그인, 로그아웃
+- 회원 탈퇴
+- 프로필 CRUD
+- 게시판 작성
+- 게시글 CRUD
+- 댓글 생성,삭제
+
 <hr>
 
 ## 7. 추가 기능
+
+- 구독 기능
 
 <hr>
 
