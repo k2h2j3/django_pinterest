@@ -21,8 +21,8 @@ Vultr, docker, portainer를 사용하여 배포
 8. Article(게시판)
 9. 댓글
 10. 프로젝트(카테고리)
-11. 구독기능 <------------- 진행
-12. 배포
+11. 구독기능 
+12. 배포 <------------- 진행
     
 <hr>
 
@@ -38,25 +38,96 @@ Vultr, docker, portainer를 사용하여 배포
 
 ### 2.2 배포 URL
 
+- http://158.247.243.153/
+
 <hr>
 
 ## 3. 데이터베이스 ERD
+
+
+![Django_pinterest](https://github.com/k2h2j3/django_pinterest/assets/74819625/c62fb4f0-11d8-4c57-b735-5c628426d61b)
+
 
 <hr>
 
 ## 4. 프로젝트 구조
 
+```bash
+pragmatic
+|
++---accountapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---accountapp
+|   \---__pycache__
++---articleapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---articleapp
+|   \---__pycache__
++---commentapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---commentapp
+|   \---__pycache__
++---media
+|   +---article
+|   +---profile
+|   \---project
++---pragmatic
+|   +---settings
+|   |   \---__pycache__
+|   \---__pycache__
++---profileapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---profileapp
+|   \---__pycache__
++---projectapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---projectapp
+|   \---__pycache__
++---static
+|   \---js
++---subscribeapp
+|   +---migrations
+|   |   \---__pycache__
+|   +---templates
+|   |   \---subscribeapp
+|   \---__pycache__
+\---templates
+    \---snippets
+```
+
 <hr>
 
 ## 5. UI
+
+
 
 <hr>
 
 ## 6. 메인 기능
 
+- 회원가입
+- 로그인, 로그아웃
+- 회원 탈퇴
+- 프로필 CRUD
+- 게시판 작성
+- 게시글 CRUD
+- 댓글 생성,삭제
+
 <hr>
 
 ## 7. 추가 기능
+
+- 구독 기능
 
 <hr>
 
@@ -75,13 +146,13 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 -> admin 아이디 , 비밀번호 입력 후 접속(처음이면 생성) -> 
 
 
-1) image 생성
+#### 1) image 생성
 
    Dockerfile 작성 -> portainer에서 image 생성
 
    
 
-3) nginx 컨테이너와 django_container_gunicorn 컨테이너 연결
+#### 2) nginx 컨테이너와 django_container_gunicorn 컨테이너 연결
 
 
 ![1](https://github.com/k2h2j3/django_pinterest/assets/74819625/b2006d79-09b3-4161-a375-9a0442824734)
@@ -100,7 +171,7 @@ cmd창에서 'ssh root@158.247.243.153(서버ip)' 입력 -> vultr홈페이지에
 
 -> nginx의 볼륨(volume)
 
-3) django_container_gunicorn 컨테이너에서 DB를 외부 mariadb로 설정 후 연결
+#### 3) django_container_gunicorn 컨테이너에서 DB를 외부 mariadb로 설정 후 연결
 
 
 ![2](https://github.com/k2h2j3/django_pinterest/assets/74819625/8085f3bb-108d-44fd-8c64-056ddb49dcb5)
@@ -131,7 +202,7 @@ DB를 외부로 돌리기 위해서는 settings.py의 기능을 local(개발환�
 5. Dockerfile 수정 후 portainer에서 image를 새로 만든 후 그 image를 기반으로 새 django_container_gunicorn 컨테이너 생성
 
 
-4) 컨테이너->Service로 만들고 노드로 묶기
+#### 4) 컨테이너->Service로 만들고 노드로 묶기
 
    서버를 돌리는 중에 django_container_gunicorn이 도중에 꺼지면 연동되어있는 다른 컨테이너또한 작동이 되지않아 서버가 다운될 것이다. 그러면 다시 컨테이너를 수동으로 켜주어야하는데 24시간내내 서버를 지킬수가 없기 때문에 자동적으로 서버를 구동시켜주는 시스템이 필요하다. 그것이 Service이다
 
@@ -153,6 +224,44 @@ DB를 외부로 돌리기 위해서는 settings.py의 기능을 local(개발환�
 
 
 ![3](https://github.com/k2h2j3/django_pinterest/assets/74819625/e219d5f5-7df6-4758-bbc9-0835f4c875a7)
+
+
+#### 5) docekr secret 설정
+
+
+![4](https://github.com/k2h2j3/django_pinterest/assets/74819625/2407387f-2cca-4807-a2f6-76f01987eed5)
+
+docker swarm으로 노드 1개를 만든 상태다. 여기서 DJANGO_SECRET_KEY처럼 외부에 공개하면 안되는 비밀정보들을 Docker에서 관리할 수 있는데 Docker secret 기능이다.
+
+
+![5](https://github.com/k2h2j3/django_pinterest/assets/74819625/043fe1a7-519a-4cc3-a7b3-b3dfd16ed175)
+
+
+1. secret에서 DJANGO_SECRET_KEY, MYSQL_ROOT_PASSWORD, MYSQL_PASSWORD 를 생성한다
+
+
+![1](https://github.com/k2h2j3/django_pinterest/assets/74819625/b0f414b2-7001-4d55-aa39-0b7907f0d566)
+
+
+2. yml 파일 수정(commit log 참조)
+
+
+3. pragmatic/settings/delpoy.py 에서 코드 수정한다(read_secret 메서드생성 및 적용)
+
+
+![2](https://github.com/k2h2j3/django_pinterest/assets/74819625/a0dc3218-76b2-4d80-8ba0-30ecba662e85)
+
+
+![3](https://github.com/k2h2j3/django_pinterest/assets/74819625/e7f89199-47e8-41b5-b2fa-b975a07b18ed)
+
+
+4. Dockerfile 수정(commit log 참조)
+
+
+5. 수정된 Dockerfile을 바탕으로 새 image생성 후, 새 image, yml을 사용하여 새 stack 생성
+
+   
+
 
 
 
