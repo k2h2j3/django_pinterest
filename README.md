@@ -122,7 +122,7 @@ pragmatic
    ![스크린샷 2023-07-30 153444](https://github.com/k2h2j3/django_pinterest/assets/74819625/5115d695-4de5-47d7-b94d-e552df218f0e)
 
 
-4. 프로필화면
+4. 구독상태
 
 
 ![스크린샷 2023-07-30 153530](https://github.com/k2h2j3/django_pinterest/assets/74819625/b989fe9c-d1a1-42bc-b31d-27b44fa5f78d)
