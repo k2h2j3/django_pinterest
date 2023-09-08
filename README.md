@@ -109,6 +109,27 @@ pragmatic
 
 ## 5. UI
 
+1. 회원가입
+
+![스크린샷 2023-07-30 143845](https://github.com/k2h2j3/django_pinterest/assets/74819625/bcbf50d5-35c1-4855-980f-bf6a885ea9a0)
+
+2. 메인화면
+
+   ![스크린샷 2023-07-30 153352](https://github.com/k2h2j3/django_pinterest/assets/74819625/785a015a-b2fe-44dc-88c0-fb25608a6d21)
+
+3. 프로젝트목록
+
+   ![스크린샷 2023-07-30 153444](https://github.com/k2h2j3/django_pinterest/assets/74819625/5115d695-4de5-47d7-b94d-e552df218f0e)
+
+
+4. 프로필화면
+
+
+![스크린샷 2023-07-30 153530](https://github.com/k2h2j3/django_pinterest/assets/74819625/b989fe9c-d1a1-42bc-b31d-27b44fa5f78d)
+
+
+
+
 
 
 <hr>
